@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IG API Demo</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <script src="assets/js/jquery-2.1.1.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>IG scraper demo</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <input type="text" id="username" placeholder="username without @" class="form-control">
+                </div>
+                <div class="form-group">
+                    <button id="button" onclick="fetchImage()">Fetch</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="container" id="result">
+                
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+
+    function fetchImage() {
+        let username = document.getElementById("username").value
+
+        let url = "https://ocig.herokuapp.com/?u="+username;
+
+        $("#button").button("loading");
+
+        fetch(url).then(res => res.json()).then(json => {
+            let result = "";
+            json.forEach(image => {
+                result += renderHTML(image.src);
+            });
+
+            $("#result").html(result);
+            console.log(result);
+            
+            $("#button").button("reset");
+        })
+        
+    }
+
+    function renderHTML(src) {
+        let html = "";
+
+        html += `
+            <div class="col-sm-4">
+                <img style="width:100%" src="${src}" alt="">
+            </div>
+        `
+
+        return html;
+    }
+</script>
+</html>
