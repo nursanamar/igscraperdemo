@@ -52,6 +52,9 @@
             console.log(result);
             
             $("#button").button("reset");
+        }).catch(err => {
+            alert("Error, please try again");
+            $("#button").button("reset");
         })
         
     }
