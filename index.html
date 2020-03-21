@@ -45,7 +45,7 @@
         fetch(url).then(res => res.json()).then(json => {
             let result = "";
             json.forEach(image => {
-                result += renderHTML(image.src);
+                result += renderHTML(image.thumbnail_src);
             });
 
             $("#result").html(result);
@@ -57,6 +57,33 @@
             $("#button").button("reset");
         })
         
+    }
+
+    function embed() {
+        let posts = [
+            "https://www.instagram.com/p/B7JY1fnprXH/",
+            "https://www.instagram.com/p/B1ayeeVgfDv/",
+            "https://www.instagram.com/p/B1WDCB9g0q2/",
+            "https://www.instagram.com/p/Bxrrs3VFiCx/"
+        ];
+
+        posts.forEach(post => {
+            fetch("https://api.instagram.com/oembed?omitscript=true&url="+post).then(res => res.json()).then(json => {
+                renderEmbed(json.html);
+            })
+        })
+    }
+
+
+    function renderEmbed(embedHtml) {
+        let html = "";
+
+        html += `
+            <div class="col-sm-4">
+                ${embedHtml}
+            </div>
+        `
+        $("#result").append(html);
     }
 
     function renderHTML(src) {
